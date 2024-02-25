@@ -7,7 +7,7 @@ class Field:
         self.value = value
 
     def __str__(self):
-        return str(self.value)
+        return str(self.value) #  Повернення значення у вигляді рядка
 
 class Name(Field):
     pass
@@ -21,25 +21,25 @@ class Phone(Field):
 class Birthday(Field):
     def __init__(self, value):
         try:
-            self.value = datetime.strptime(value, "%d.%m.%Y")
+            self.value = datetime.strptime(value, "%d.%m.%Y") # Перетворення рядка у формат datetime
         except ValueError:
-            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+            raise ValueError("Invalid date format. Use DD.MM.YYYY") # Викидання винятку при невірному форматі дати
 
 class Record:
     def __init__(self, name):
-        self.name = Name(name)
-        self.phones = []
-        self.birthday = None
+        self.name = Name(name) # Ім'я контакту
+        self.phones = [] # Список телефонів
+        self.birthday = None # День народження (за замовчуванням None)
 
     def add_phone(self, phone):
         try:
-            self.phones.append(Phone(phone))
+            self.phones.append(Phone(phone)) # Додавання телефону до списку
         except ValueError as e:
             print(e)
 
     def add_birthday(self, birthday):
         try:
-            self.birthday = Birthday(birthday)
+            self.birthday = Birthday(birthday) # Додавання дня народження до контакту
         except ValueError as e:
             print(e)
 
@@ -48,14 +48,14 @@ class Record:
 
 class AddressBook(UserDict):
     def add_record(self, record):
-        self.data[record.name.value] = record
+        self.data[record.name.value] = record # Додавання запису до адресної книги
 
     def find(self, name):
-        return self.data.get(name)
+        return self.data.get(name) # Пошук запису за ім'ям
     
     def delete(self, name):
         if name in self.data:
-            del self.data[name]
+            del self.data[name] # Видалення запису за ім'ям
 
     def get_upcoming_birthdays(self):
         today = datetime.now()
@@ -70,7 +70,7 @@ class AddressBook(UserDict):
                     next_birthday_this_year = record.birthday.value.replace(year=today.year + 1)
                     if next_birthday_this_year < next_week:
                         upcoming_birthdays.append(record)
-        return upcoming_birthdays
+        return upcoming_birthdays  #Повертає список контактів, яких потрібно привітати в найближчі дні народження
 
 
 # Функція parse_input розбиває введений рядок на слова, використовуючи пробіл як розділювач
